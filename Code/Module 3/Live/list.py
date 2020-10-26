@@ -1,0 +1,15 @@
+x = [1,2,3,4]
+x.append(5)
+print(x)
+y = [6,7,8,9]
+print(x + y)
+x.extend(y)
+print(x)
+x.insert(2,99)
+print(x)
+print(x.pop())
+print(x.count(2))
+x.reverse()
+print(x)
+x.clear()
+print(x)
