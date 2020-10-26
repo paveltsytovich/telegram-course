@@ -1,0 +1,6 @@
+x = input("введите строку >")
+d = int(x)
+y = input("введите другую строку >")
+print(float(y))
+print(bin(d))
+print(hex(d))
