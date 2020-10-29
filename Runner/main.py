@@ -1,3 +1,6 @@
+# (c) TICSIA
+#
+#  Demo bot main file
 import DemoBot
 
 def main():

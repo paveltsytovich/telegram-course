@@ -1,3 +1,7 @@
+# (c) TICSIA
+#
+# demo bot class implementation
+
 import asyncio
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
