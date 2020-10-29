@@ -21,5 +21,4 @@ class DemoBot:
 def run_bot():
     bot = DemoBot()         
     asyncio.run(bot._DemoBot__main())
-    
-run_bot()
+
