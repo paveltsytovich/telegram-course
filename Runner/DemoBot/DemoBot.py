@@ -9,21 +9,20 @@ from aiogram.utils import executor
 from  . import config
 
 class DemoBot:
+   
     def __init__(self):
-        pass
-    async def __main(self):
-        bot = Bot(config.bot_id)
+        self.__bot = Bot(config.bot_id)
+        
+    async def __main(self):      
         try:
-            disp = Dispatcher(bot=bot)
+            disp = Dispatcher(bot=self.__bot)
             disp.register_message_handler(self.start_handler,commands = {"start","restart"})
             await disp.start_polling()
         finally:
-            await bot.close()
+            await self.__bot.close()
                     
     async def start_handler(self,event):
         await event.answer(f"Hello {event.from_user.get_mention(as_html=True)} :-)",parse_mode = types.ParseMode.HTML)
-    
-def run_bot():
-    bot = DemoBot()         
-    asyncio.run(bot._DemoBot__main())
-
+  
+    def run(self):        
+        asyncio.run(self.__main())    

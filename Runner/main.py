@@ -1,10 +1,11 @@
 # (c) TICSIA
 #
 #  Demo bot main file
-import DemoBot
+from DemoBot import DemoBot
 
 def main():
-    DemoBot.run_bot()
+    bot = DemoBot()
+    bot.run()
     
 if __name__ == '__main__':
     main()
