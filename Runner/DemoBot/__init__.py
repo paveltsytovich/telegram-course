@@ -1,0 +1,1 @@
+from .botmain import run_bot

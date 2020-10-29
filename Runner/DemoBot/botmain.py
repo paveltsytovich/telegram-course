@@ -2,12 +2,13 @@ import asyncio
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
-import botid
+from  . import config
+
 class DemoBot:
     def __init__(self):
         pass
     async def __main(self):
-        bot = Bot(botid.bot_id)
+        bot = Bot(config.bot_id)
         try:
             disp = Dispatcher(bot=bot)
             disp.register_message_handler(self.start_handler,commands = {"start","restart"})
