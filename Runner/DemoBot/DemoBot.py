@@ -24,5 +24,6 @@ class DemoBot:
     async def start_handler(self,event):
         await event.answer(f"Hello {event.from_user.get_mention(as_html=True)} :-)",parse_mode = types.ParseMode.HTML)
   
-    def run(self):        
+    def run(self):
+        print('Bot run in polling mode. Please CTRL-Break for exit...')        
         asyncio.run(self.__main())    
