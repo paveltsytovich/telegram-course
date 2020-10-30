@@ -1,5 +1,5 @@
-/Runner/.vscode
-/Runner/__pycache__
+.vscode
+__pycache__
 /Runner/.pytest_cache
 /Samples/.pytest_cache
 /Code/__pycache__
