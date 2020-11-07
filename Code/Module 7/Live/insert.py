@@ -12,6 +12,5 @@ with closing(psycopg2.connect(**config.connection_param)) as conn:
             sql.SQL(',').join(map(sql.Literal,values)))              
         cursor.execute(cmd)
         conn.commit()
-        id = cursor.fetchone()[0]
-        print(id)
+        id = cursor.fetchone()[0]       
         
