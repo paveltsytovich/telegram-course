@@ -6,12 +6,12 @@ from aiogram.utils.executor import start_webhook
 
 bot_token = '1205352313:AAHvh4X2cpF5TJCa2pTXb_YNORFvKyVzjb4'
 
-webhook_host = 'challenge.teachwizard.ru' 
+webhook_host = 'https://challenge.teachwizard.ru' 
 webhook_path = '/api/'
 webhook_url = f"{webhook_host}{webhook_path}"
 
 webapp_host = 'localhost'
-webapp_port = 80
+webapp_port = 3001
 
 bot = Bot(token=bot_token)
 dp = Dispatcher(bot)
@@ -34,8 +34,7 @@ async def on_startup(dp):
     await bot.set_webhook(webhook_url)
 
 async def on_shutdown(dp):
-    logging.warning('Shutting down..')
-
+   
     await bot.delete_webhook()
    
     await dp.storage.close()
