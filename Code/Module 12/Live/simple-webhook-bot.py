@@ -11,9 +11,9 @@ webhook_path = '/api/'
 webhook_url = f"{webhook_host}{webhook_path}"
 
 webapp_host = 'localhost'
-webapp_port = 3001
+webapp_port = 80
 
-bot = Bot(token=API_TOKEN)
+bot = Bot(token=bot_token)
 dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start', 'help'])
@@ -41,7 +41,7 @@ async def on_shutdown(dp):
     await dp.storage.close()
     await dp.storage.wait_closed()
 
-  if __name__ == '__main__':
+if __name__ == '__main__':
     start_webhook(
         dispatcher=dp,
         webhook_path=webhook_path,
