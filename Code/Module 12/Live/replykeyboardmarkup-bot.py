@@ -8,12 +8,17 @@ bot_token = '1205352313:AAHvh4X2cpF5TJCa2pTXb_YNORFvKyVzjb4'
 bot = Bot(token=bot_token)
 dp = Dispatcher(bot)
 
-@dp.message_handler(commands=['start', 'help'])
-async def send_welcome(message: types.Message):
+@dp.message_handler(commands=['one'])
+async def one_keyboard(message: types.Message):
     simple_button = KeyboardButton('Добро пожаловать 🚪 ')
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     kb.add(simple_button)
     await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.",reply_markup = kb)
+
+
+@dp.message_handler(commands=['complex'])
+async def complex_keyboard(parameter_list):
+    
     
 @dp.message_handler()
 async def echo(message: types.Message):
