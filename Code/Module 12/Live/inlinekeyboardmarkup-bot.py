@@ -12,11 +12,20 @@ async def first_button_handler(callback_query : types.CallbackQuery):
     await bot.send_message(callback_query.from_user.id,'🌞')
     
 @dp.message_handler(commands=['inline'])
-async def funcname(message: types.Message):
+async def cmd_inline_handler(message: types.Message):
     button = InlineKeyboardButton('🏃',callback_data = 'btn')
     kb = InlineKeyboardMarkup().add(button)
     await message.answer('Нажми на кнопку - получишь результат',reply_markup=kb)
     
+@dp.message_handler(commands=['link'])
+async def cmd_link_handler(message: types.Message):
+    btn_google = InlineKeyboardButton('🖐',url="https://google.com")
+    btn_switch_inline_query_current_chat = InlineKeyboardButton('🎳',switch_inline_query_current_chat='aiogram')
+    btn_switch_inline_query = InlineKeyboardButton('🔭',switch_inline_query='aiogram')
+    
+    kb = InlineKeyboardMarkup().add(btn_google).add(btn_switch_inline_query).add(btn_switch_inline_query_current_chat)
+    await message.answer('Нажми на кнопки - получишь результат',reply_markup=kb)
+
     
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
