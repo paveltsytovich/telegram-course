@@ -18,13 +18,12 @@ async def one_keyboard(message: types.Message):
 
 @dp.message_handler(commands=['complex'])
 async def complex_keyboard(message : types.Message):
-    button_text = KeyboardButton('Это просто текст')
-    button_contact = KeyboardButton('Отправь свой контакт',request_contact= True)
-    button_location = KeyboardButton('Отправь свое местонахождение',request_location=True)
+    button_text = KeyboardButton('🌄')
+    button_contact = KeyboardButton('📞',request_contact= True)
+    button_location = KeyboardButton('🌍',request_location=True)
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     kb.add(button_text)
-    kb.add(button_location)
-    kb.add(button_contact)
+    kb.row(button_location,button_contact)    
     await message.answer('Нажми кнопку',reply_markup = kb)
     
 @dp.message_handler()
