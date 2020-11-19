@@ -6,3 +6,10 @@ def check_phone(message):
         return "Телефон корректный"
     else:
         return "Неверный формат номера телефона"
+    
+def check_email(message):
+    match = re.search(r'^Почта [^@]+@[^@.]+\.[^@]+$',message)
+    if match:
+        return "Адрес электронной почты корректный"
+    else:
+        return "Адрес некорректный"
