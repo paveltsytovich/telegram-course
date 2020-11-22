@@ -1,6 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 import DemoBot.config as config
+import re
 
 def init_nosql():
     print('Check MongoDB collection...', end = '')
@@ -36,5 +37,14 @@ def init_nosql():
     else:
         print('collection exists!')
 
-def search():
-    pass
+def search(message):
+    result = ''
+    keyword = re.split(r'[ ]',message)
+    
+    client  = MongoClient(config.mongo_connection)
+    db = client['bot']
+    articlies = db.articles
+    rows = articlies.find( {"tags": {"$in" : keyword[1:]}})
+    for c in rows:
+        result += "{}\nОписание:\n {}\n".format(c['Object'],c['Desc'])
+    return result
