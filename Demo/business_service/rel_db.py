@@ -2,7 +2,11 @@ import DemoBot.config as config
 import psycopg2
 from psycopg2 import sql
 from contextlib import closing
+from datetime import datetime
+from datetime import timedelta
+import random
 
+random.seed()
 
 def create_trains(connection,cursor,stations):
     tbl_trains = """CREATE TABLE public.trains (
@@ -15,8 +19,23 @@ def create_trains(connection,cursor,stations):
         """
     cursor.execute(tbl_trains)
     connection.commit()
+    columns = ("departurestation","arrivalstation","departuretime","arrivaltime")
    
-             
+    values = (
+        (stations[0],stations[6],datetime.now(), datetime.now() + timedelta(minutes=random.randint(10,40))),
+        (stations[0],stations[5],datetime.now(), datetime.now() + timedelta(minutes=random.randint(15,45))),
+        (stations[4],stations[0],datetime.now(), datetime.now() + timedelta(minutes=random.randint(10,20))),
+        (stations[5],stations[3],datetime.now(), datetime.now() + timedelta(minutes=random.randint(15,50))),
+        (stations[2],stations[6],datetime.now(), datetime.now() + timedelta(minutes=random.randint(20,40)))
+    )
+    for value in values:
+        cmd = sql.SQL('INSERT INTO public."trains" ({}) VALUES ({})').format(
+          sql.SQL(',').join(map(sql.Identifier,columns)),
+          sql.SQL(',').join(map(sql.Literal,value))                  
+        )  
+        cursor.execute(cmd)
+    
+    connection.commit();     
              
         
 def create_stations(connection,cursor):
@@ -27,13 +46,13 @@ def create_stations(connection,cursor):
         
     cursor.execute(tbl_stations)
     connection.commit()
-    stations = ("Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки-I","Орки-II","Мордор")
-    ids = dict()
+    stations = ("Око Саурона","Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки-I","Орки-II","Мордор","Платформа Эльфийская")
+    ids = list()
     for station in stations:
          cmd = sql.SQL('INSERT INTO public."stations" (title) VALUES ({}) RETURNING id').format(sql.Literal(station))
          cursor.execute(cmd)
          connection.commit()
-         ids[station] = cursor.fetchone()[0]    
+         ids.append(cursor.fetchone()[0])
     return ids
 
 
