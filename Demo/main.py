@@ -11,6 +11,7 @@ def main():
     bot.register_text_handler(bl.check_email,regexp='^Почта ')
     bot.register_text_handler(bl.train_schedule,regexp='^Расписание ')
     bot.register_text_handler(bl.search,regexp='^Поиск ')
+    bot.register_text_handler(bl.get_course,regexp='^Курс валюты')
     bot.register_text_handler(bl.filter_handler,regexp='^[A-Za-z0-9]*')
     
     bl.init()
