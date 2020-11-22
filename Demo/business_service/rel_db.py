@@ -5,6 +5,7 @@ from contextlib import closing
 from datetime import datetime
 from datetime import timedelta
 import random
+import re
 
 random.seed()
 
@@ -46,7 +47,7 @@ def create_stations(connection,cursor):
         
     cursor.execute(tbl_stations)
     connection.commit()
-    stations = ("Око Саурона","Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки-I","Орки-II","Мордор","Платформа Эльфийская")
+    stations = ("Око Саурона","Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки пост","Разъезд орков","Мордор","Платформа Эльфийская")
     ids = list()
     for station in stations:
          cmd = sql.SQL('INSERT INTO public."stations" (title) VALUES ({}) RETURNING id').format(sql.Literal(station))
@@ -76,3 +77,24 @@ def init():
                 print('table stations created...',end= ' ')
     print()
     
+def get_stations(connection,cursor):
+    cmd = "SELECT title FROM stations"
+    cursor.execute(cmd)
+    rows = cursor.fetchall()
+    return (r[0] for r in rows)
+    
+
+def train_schedule(message):
+     single_station = r'^Расписание по станции (\w+ \w*){1}'
+     all_schedule = r'^Расписание поездов'
+     from_to_station = r'Расписание от (\w+ \w*){1} до (\w+ \w*){1}'
+     with closing(psycopg2.connect(**config.connection_param)) as conn:
+        with conn.cursor() as cursor:
+            
+            
+            
+            
+            
+            stations = get_stations(conn,cursor) 
+            regexp_stations = "|".join(stations)
+            
