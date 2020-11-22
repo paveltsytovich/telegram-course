@@ -1,6 +1,8 @@
 import DemoBot.config as config
 import psycopg2
+from psycopg2 import sql
 from contextlib import closing
+
 
 def create_trains(connection,cursor):
     tbl_trains = """CREATE TABLE public.trains (
@@ -14,8 +16,16 @@ def create_trains(connection,cursor):
     cursor.execute(tbl_trains)
     connection.commit()
     stations = ("Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки-I","Орки-II","Мордор")
-    records = dict()
-#    for station in stations:
+    ids = dict()
+    for station in stations:
+         cmd = sql.SQL('INSERT INTO public."stations" (title) VALUES ({}) RETURNING id').format(sql.Literal(station))
+         cursor.execute(cmd)
+         connection.commit()
+         ids[station] = cursor.fetchone()[0]
+    print(ids)
+    return ids
+             
+             
         
 def create_stations(connection,cursor):
     tbl_stations = """CREATE TABLE public.stations (
