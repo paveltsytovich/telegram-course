@@ -47,7 +47,7 @@ def create_stations(connection,cursor):
         
     cursor.execute(tbl_stations)
     connection.commit()
-    stations = ("Око Саурона","Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки пост","Разъезд орков","Мордор","Платформа Эльфийская")
+    stations = ("Сауроновград","Вольная","Хоббитон","Гворлум","Орки","Рохляндия","Мордор","Эльфийская")
     ids = list()
     for station in stations:
          cmd = sql.SQL('INSERT INTO public."stations" (title) VALUES ({}) RETURNING id').format(sql.Literal(station))
@@ -77,24 +77,32 @@ def init():
                 print('table stations created...',end= ' ')
     print()
     
-def get_stations(connection,cursor):
-    cmd = "SELECT title FROM stations"
-    cursor.execute(cmd)
-    rows = cursor.fetchall()
-    return (r[0] for r in rows)
+def get_stations():
+    result = ''
+    with closing(psycopg2.connect(**config.connection_param)) as conn:
+        with conn.cursor() as cursor:    
+            cmd = "SELECT title FROM stations"
+            cursor.execute(cmd)
+            rows = cursor.fetchall()
+            for c in rows:
+                result += ' - ' + c[0] + '\n'
+            return result
     
+def schedule_by_station(station):
+    pass
+
+def schedule_from_to_station(from_station, to_station):
+    pass
 
 def train_schedule(message):
-     single_station = r'^Расписание по станции (\w+ \w*){1}'
-     all_schedule = r'^Расписание поездов'
-     from_to_station = r'Расписание от (\w+ \w*){1} до (\w+ \w*){1}'
-     with closing(psycopg2.connect(**config.connection_param)) as conn:
-        with conn.cursor() as cursor:
-            
-            
-            
-            
-            
-            stations = get_stations(conn,cursor) 
-            regexp_stations = "|".join(stations)
-            
+    single_station = r'^Расписание по станции (\w+){1}'
+  
+    from_to_station = r'^Расписание от (\w+){1} до (\w+){1}'    
+    result = re.search(single_station ,message)
+    if result:
+      return  schedule_by_station(result.group(1))
+    result = re.search(from_to_station,message)
+    if result:
+        return schedule_from_to_station(result.group(1),result.group(2))
+    return 'Вы можете получить расписание по следующим станциям:\n' + get_stations()
+    
