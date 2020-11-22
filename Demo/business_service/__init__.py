@@ -4,3 +4,4 @@ from .regexp import *
 from .rel_db import init
 from .rel_db import train_schedule
 from .nosql_db import init_nosql
+from .nosql_db import search
