@@ -89,8 +89,24 @@ def get_stations():
             return result
     
 def schedule_by_station(station):
-    pass
-
+    result = ''
+    with closing(psycopg2.connect(**config.connection_param)) as conn:
+        with conn.cursor() as cursor:    
+            cmd = sql.SQL("""select source.title, destination.title, departuretime,arrivaltime from trains
+            left join stations as source on source.id = trains.departurestation
+            left join stations as destination on destination.id = trains.arrivalstation
+            where source.title = {} or destination.title = {} """).format(
+                sql.Literal(station),
+                sql.Literal(station))
+            cursor.execute(cmd)
+            if cursor.rowcount == 0:
+                return "Нет поездов на этой станции"
+            rows = cursor.fetchall()
+            for c in rows:
+                result += "Ст. отправления " + c[0] + ' время отправления ' + c[2].strftime("%H:%M") + ' ст. прибытия ' + c[1] + ' Время прибытия ' + c[3].strftime("%H:%M") + '\n\n'
+            return result 
+            
+            
 def schedule_from_to_station(from_station, to_station):
     pass
 
