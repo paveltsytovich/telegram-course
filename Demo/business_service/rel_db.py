@@ -4,7 +4,7 @@ from psycopg2 import sql
 from contextlib import closing
 
 
-def create_trains(connection,cursor):
+def create_trains(connection,cursor,stations):
     tbl_trains = """CREATE TABLE public.trains (
     id bigint NOT NULL GENERATED ALWAYS AS IDENTITY,
     departurestation bigint NULL,
@@ -15,15 +15,7 @@ def create_trains(connection,cursor):
         """
     cursor.execute(tbl_trains)
     connection.commit()
-    stations = ("Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки-I","Орки-II","Мордор")
-    ids = dict()
-    for station in stations:
-         cmd = sql.SQL('INSERT INTO public."stations" (title) VALUES ({}) RETURNING id').format(sql.Literal(station))
-         cursor.execute(cmd)
-         connection.commit()
-         ids[station] = cursor.fetchone()[0]
-    print(ids)
-    return ids
+   
              
              
         
@@ -35,6 +27,14 @@ def create_stations(connection,cursor):
         
     cursor.execute(tbl_stations)
     connection.commit()
+    stations = ("Вольный поселок","Поселение хоббитов","Обитель гворлума","Орки-I","Орки-II","Мордор")
+    ids = dict()
+    for station in stations:
+         cmd = sql.SQL('INSERT INTO public."stations" (title) VALUES ({}) RETURNING id').format(sql.Literal(station))
+         cursor.execute(cmd)
+         connection.commit()
+         ids[station] = cursor.fetchone()[0]    
+    return ids
 
 
 def init():
@@ -47,13 +47,13 @@ def init():
             if cursor.rowcount:
                 print('table stations exists.',end=' ')
             else:
-                create_stations(conn,cursor);
+                stations = create_stations(conn,cursor);
                 print('table stations created.',end=' ')
             cursor.execute("select * from information_schema.tables where table_name='trains'") 
             if cursor.rowcount:
                 print('table trains exists.',end=' ') 
             else:
-                create_trains(conn,cursor)
+                create_trains(conn,cursor,stations)
                 print('table stations created...',end= ' ')
     print()
     
