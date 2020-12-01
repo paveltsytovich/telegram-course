@@ -29,8 +29,8 @@ class DemoBot:
     def register_start_handler(self,handler=None):
         async def internal_handler(event):
             if not handler is None:
-                result = handler(event.text)
-                await event.answer(result,parse_mode = types.ParseMode.HTML)
+                result = handler(event.text,self.__bot)
+                await event.answer(result[0],parse_mode = types.ParseMode.HTML, reply_markup = result[1])
             else:
                 await event.answer(f"Hello {event.from_user.get_mention(as_html=True)} :-)",parse_mode = types.ParseMode.HTML)
              
