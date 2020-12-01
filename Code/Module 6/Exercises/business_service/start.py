@@ -3,11 +3,11 @@ import random
 import os
 
 def get_welcome():
-    pass # начните сюда ваш код, удалив оператор pass
+    return "stub" # начните отсюда ваш код, заменив эту строку
   
      
 def start_command(message,bot):
         result = get_welcome()
-        mark = create_kdb()
-        return (result,mark)        
+        
+        return (result,None)        
              
