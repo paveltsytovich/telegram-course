@@ -1,5 +1,5 @@
 import os
 
 def filter_handler(message):
-    pass # начните отсюда ваш код, удалив оператор pass
+    return "No filter" # начните здесь свой код, заменив им эту строчку
   
