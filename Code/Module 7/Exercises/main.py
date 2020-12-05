@@ -9,7 +9,12 @@ def main():
     bot.register_start_handler(bl.start_command)
     bot.register_text_handler(bl.check_phone,regexp='^Телефон [()0-9]*')
     bot.register_text_handler(bl.check_email,regexp='^Почта ')
-    bot.register_text_handler(bl.filter_handler,regexp='^[A-Za-z0-9]*')    
+    bot.register_text_handler(bl.train_schedule,regexp='^Расписание ')
+    bot.register_text_handler(bl.filter_handler,regexp='^[A-Za-z0-9]*')
+    
+    bl.init()
+ 
+    
     bot.run()
     
 if __name__ == '__main__':
