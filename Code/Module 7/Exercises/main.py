@@ -13,7 +13,7 @@ def main():
     bot.register_text_handler(bl.filter_handler,regexp='^[A-Za-z0-9]*')
     
     bl.init()
-    bl.init_nosql()
+ 
     
     bot.run()
     
